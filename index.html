@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>charity: water Dash</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="top-bar card">
+      <div class="brand-block">
+        <h1>charity: water Dash</h1>
+        <p class="subtitle">A hopeful journey to deliver clean water, village by village.</p>
+      </div>
+      <div class="top-actions">
+        <button id="startButton" class="button button-primary primary-button">Start Campaign</button>
+        <button id="resetButton" class="button button-secondary secondary-button">Reset Campaign</button>
+      </div>
+    </header>
+
+    <main class="game-panel">
+      <section class="top-hud card" aria-label="Top game HUD">
+        <div class="hud-score-block">
+          <p class="hud-label">Score</p>
+          <p id="scoreValue" class="hud-value">0</p>
+        </div>
+
+        <div class="hud-location-block">
+          <p class="hud-label">Current Location</p>
+          <p id="locationValue" class="hud-value">Village in Kenya</p>
+          <p class="hud-meta">Mission: <span id="missionValue">Collect 20 water drops (0/20)</span></p>
+        </div>
+
+        <div class="hud-resources-block" aria-label="Water and health stats">
+          <div class="resource-chip">
+            <span class="hud-icon icon-drop" aria-hidden="true"></span>
+            <span class="resource-label">Drops</span>
+            <span id="dropsValue" class="resource-value">0</span>
+          </div>
+          <div class="resource-chip">
+            <span class="hud-icon icon-jerry" aria-hidden="true"></span>
+            <span class="resource-label">Jerry</span>
+            <span id="jerryValue" class="resource-value">0</span>
+          </div>
+          <div class="resource-chip">
+            <span class="hud-icon icon-lives" aria-hidden="true"></span>
+            <span class="resource-label">Lives</span>
+            <span id="livesValue" class="resource-value">3</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="campaign-map card" aria-label="Campaign route map">
+        <div class="campaign-head">
+          <p class="campaign-title">Journey Path</p>
+          <p id="campaignStatus" class="campaign-status">Stop 1 of 5</p>
+        </div>
+        <ol id="campaignRoute" class="route-list"></ol>
+        <p id="campaignNext" class="campaign-next">Completed villages: 0 | Next destination: Village in Kenya</p>
+        <p id="campaignGoal" class="campaign-goal">Goal: complete all locations and deliver enough water to the final village.</p>
+      </section>
+
+      <section class="canvas-wrap card">
+        <canvas id="gameCanvas" width="960" height="540" aria-label="Runner game canvas"></canvas>
+
+        <div id="levelIntro" class="level-intro" aria-live="polite">
+          <p id="levelIntroTitle" class="level-intro-title"></p>
+          <p id="levelIntroText" class="level-intro-text"></p>
+        </div>
+
+        <div id="startOverlay" class="overlay visible">
+          <h2>Journey for clean water</h2>
+          <p>Follow the route map and bring water and hope to each stop.</p>
+          <p>Use Left/Right arrows or A/D. On mobile, use the bottom touch controls.</p>
+        </div>
+
+        <div id="levelCompleteOverlay" class="overlay level-complete">
+          <h2 id="levelCompleteTitle">Village Complete</h2>
+          <p id="levelCompleteText">Another village is now unlocked.</p>
+          <button id="continueButton" class="button button-primary primary-button">Next Village</button>
+        </div>
+
+        <div id="gameOverOverlay" class="overlay game-summary">
+          <h2 id="gameOverTitle">Run Summary</h2>
+          <p id="finalStats">You reached 0 villages.</p>
+          <button id="restartButton" class="button button-primary primary-button">Try Again</button>
+        </div>
+
+        <div class="message-strip" aria-live="polite">
+          <p id="messageValue">Press Start Campaign to begin.</p>
+        </div>
+      </section>
+
+      <p class="control-hint" aria-live="polite">Desktop controls: Left/Right arrows or A/D keys.</p>
+
+      <section class="touch-controls" aria-label="Touch controls">
+        <button id="leftTouch" class="touch-button">Left</button>
+        <button id="rightTouch" class="touch-button">Right</button>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

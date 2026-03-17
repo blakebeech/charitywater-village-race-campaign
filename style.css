@@ -1,0 +1,832 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap");
+
+/* =========================================================
+   1) Design Tokens and Theme Variables
+   ========================================================= */
+:root {
+  /* Core brand colors */
+  --jerry-yellow: #FFC907;
+  --dark-blue: #003366;
+  --muted-blue: #77A8BB;
+  --light-cream: #FFF7E1;
+  --black: #1A1A1A;
+
+  /* Expanded palette */
+  --yellow-hover: #E0B000;
+  --yellow-soft-bg: #FFF4C8;
+  --blue-hover: #14508D;
+  --blue-soft-bg: #EAF4F8;
+  --success-green: #61B985;
+  --error-red: #C76464;
+
+  /* UI neutrals */
+  --text-strong: #12345C;
+  --text-body: #1A1A1A;
+  --text-muted: #486A8D;
+  --panel: rgba(255, 247, 225, 0.95);
+  --panel-border: rgba(0, 51, 102, 0.18);
+  --canvas-border: rgba(0, 51, 102, 0.24);
+
+  /* Spacing system (8px grid) */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+
+  /* Radius system */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+
+  /* Depth and motion */
+  --shadow-soft: 0 8px 24px rgba(0, 51, 102, 0.1);
+  --shadow-hud: 0 6px 18px rgba(0, 51, 102, 0.14);
+  --focus-ring: rgba(255, 201, 7, 0.78);
+  --speed-fast: 140ms ease;
+  --speed-mid: 220ms ease;
+}
+
+/* =========================================================
+   2) Base and Utilities
+   ========================================================= */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Inter", "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--text-body);
+  background:
+    radial-gradient(circle at 9% 8%, rgba(255, 201, 7, 0.3), transparent 30%),
+    radial-gradient(circle at 92% 12%, rgba(119, 168, 187, 0.28), transparent 34%),
+    linear-gradient(180deg, #FFFDF6 0%, var(--light-cream) 46%, #FFF7E1 100%);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: var(--dark-blue);
+  font-family: "Poppins", "Inter", sans-serif;
+  line-height: 1.2;
+}
+
+p {
+  margin: 0;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+}
+
+.button,
+.primary-button,
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.72rem 1.1rem;
+  border-radius: 14px;
+  border: 0;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--speed-fast), background-color var(--speed-fast), color var(--speed-fast),
+    border-color var(--speed-fast), box-shadow var(--speed-fast), opacity var(--speed-fast);
+}
+
+.button-primary,
+.primary-button {
+  background: var(--jerry-yellow);
+  color: var(--dark-blue);
+  border: 1px solid rgba(0, 51, 102, 0.2);
+  box-shadow: 0 6px 14px rgba(255, 201, 7, 0.34);
+}
+
+.button-primary:hover,
+.primary-button:hover {
+  background: var(--yellow-hover);
+  transform: translateY(-1px) scale(1.01);
+}
+
+.button-primary:active,
+.primary-button:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 3px 8px rgba(255, 201, 7, 0.35);
+}
+
+.button-secondary,
+.secondary-button {
+  color: var(--dark-blue);
+  background: var(--blue-soft-bg);
+  border: 1px solid rgba(0, 51, 102, 0.2);
+}
+
+.button-secondary:hover,
+.secondary-button:hover {
+  color: var(--light-cream);
+  background: var(--blue-hover);
+  transform: translateY(-1px);
+}
+
+.button-secondary:active,
+.secondary-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.button:disabled,
+.button-primary:disabled,
+.primary-button:disabled,
+.button-secondary:disabled,
+.secondary-button:disabled {
+  opacity: 0.52;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.button:focus-visible,
+.primary-button:focus-visible,
+.secondary-button:focus-visible,
+.touch-button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   3) App Layout
+   ========================================================= */
+.page-shell {
+  width: min(1140px, calc(100% - 2rem));
+  margin: var(--space-3) auto calc(var(--space-4) + var(--space-2));
+  display: grid;
+  gap: var(--space-2);
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+}
+
+.brand-block h1 {
+  font-size: clamp(1.72rem, 2.5vw, 2.35rem);
+  letter-spacing: 0.01em;
+}
+
+.subtitle {
+  margin-top: 2px;
+  max-width: 60ch;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.game-panel {
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* =========================================================
+   4) Top HUD
+   ========================================================= */
+.top-hud {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr 1.2fr;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border-color: rgba(0, 51, 102, 0.2);
+  box-shadow: var(--shadow-hud);
+}
+
+.hud-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.hud-value {
+  margin-top: 2px;
+  color: var(--dark-blue);
+  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+  font-weight: 800;
+}
+
+.hud-score-block,
+.hud-location-block {
+  min-width: 0;
+}
+
+.hud-location-block {
+  text-align: center;
+}
+
+.hud-location-block .hud-value {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hud-meta {
+  margin-top: 4px;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+#missionValue {
+  color: var(--dark-blue);
+  font-weight: 700;
+}
+
+.hud-resources-block {
+  display: grid;
+  justify-items: end;
+  gap: var(--space-1);
+}
+
+.resource-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  min-height: 30px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 51, 102, 0.16);
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.resource-label {
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.resource-value {
+  min-width: 1.25rem;
+  color: var(--dark-blue);
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-align: right;
+}
+
+.hud-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  position: relative;
+}
+
+.icon-drop {
+  width: 13px;
+  height: 17px;
+  background: linear-gradient(180deg, #A9DCEC 0%, #5E9FB8 100%);
+  border-radius: 50% 50% 62% 62% / 66% 66% 44% 44%;
+  transform: rotate(180deg);
+}
+
+.icon-jerry {
+  border-radius: 3px;
+  border: 2px solid var(--dark-blue);
+  background: var(--jerry-yellow);
+}
+
+.icon-jerry::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: -3px;
+  width: 8px;
+  height: 4px;
+  border: 2px solid var(--dark-blue);
+  border-bottom: 0;
+  border-radius: 3px 3px 0 0;
+  background: var(--yellow-soft-bg);
+}
+
+.icon-lives {
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #A9E2C0 0%, var(--success-green) 65%);
+  box-shadow: inset 0 0 0 1px rgba(0, 51, 102, 0.22);
+}
+
+/* =========================================================
+   5) Campaign Journey Map
+   ========================================================= */
+.campaign-map {
+  padding: var(--space-2);
+  display: grid;
+  gap: 10px;
+  background: linear-gradient(180deg, rgba(255, 247, 225, 0.95), rgba(234, 244, 248, 0.55));
+}
+
+.campaign-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-1);
+}
+
+.campaign-title {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.campaign-status {
+  color: var(--dark-blue);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.route-list {
+  list-style: none;
+  margin: 0;
+  padding: 6px 2px 2px;
+  display: flex;
+  align-items: flex-start;
+  overflow-x: auto;
+  gap: 0;
+}
+
+.route-list::-webkit-scrollbar {
+  height: 8px;
+}
+
+.route-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 51, 102, 0.2);
+  border-radius: 999px;
+}
+
+.route-stop {
+  position: relative;
+  min-width: 156px;
+  flex: 0 0 156px;
+  padding: 30px 8px 6px;
+  text-align: center;
+  transition: transform var(--speed-mid), opacity var(--speed-mid);
+}
+
+.route-stop::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 51, 102, 0.32);
+  background: #D8E8EF;
+  transform: translateX(-50%);
+  transition: background-color var(--speed-mid), border-color var(--speed-mid), box-shadow var(--speed-mid);
+}
+
+.route-stop::after {
+  content: "";
+  position: absolute;
+  top: 13px;
+  left: calc(50% + 9px);
+  width: calc(100% - 18px);
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(0, 51, 102, 0.18);
+}
+
+.route-stop:last-child::after {
+  display: none;
+}
+
+.route-step {
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.route-name {
+  margin-top: 3px;
+  color: var(--dark-blue);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.route-country {
+  margin-top: 1px;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+}
+
+.route-stop.completed::before {
+  background: var(--jerry-yellow);
+  border-color: var(--yellow-hover);
+  box-shadow: 0 0 0 4px rgba(255, 201, 7, 0.2);
+}
+
+.route-stop.completed::after {
+  background: rgba(255, 201, 7, 0.58);
+}
+
+.route-stop.active {
+  transform: translateY(-2px);
+}
+
+.route-stop.active::before {
+  border-color: var(--jerry-yellow);
+  background: #FFF9E1;
+  box-shadow: 0 0 0 6px rgba(255, 201, 7, 0.22);
+  animation: route-node-pulse 1.5s ease-in-out infinite;
+}
+
+.route-stop.unlocked:not(.completed):not(.active)::before {
+  border-color: var(--muted-blue);
+  background: rgba(119, 168, 187, 0.32);
+  animation: route-unlock-pop 560ms ease-out;
+}
+
+.route-stop.locked {
+  opacity: 0.58;
+}
+
+.campaign-next,
+.campaign-goal {
+  color: var(--dark-blue);
+  font-size: 0.95rem;
+}
+
+.campaign-next {
+  font-weight: 700;
+}
+
+.campaign-goal {
+  color: var(--text-muted);
+}
+
+/* =========================================================
+   6) Canvas, Overlay, and Messaging
+   ========================================================= */
+.canvas-wrap {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--canvas-border);
+  box-shadow: var(--shadow-hud);
+  background: var(--light-cream);
+}
+
+#gameCanvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+.level-intro {
+  position: absolute;
+  left: 50%;
+  top: var(--space-1);
+  transform: translate(-50%, -8px);
+  width: min(620px, calc(100% - 1.5rem));
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 201, 7, 0.55);
+  background: rgba(0, 51, 102, 0.86);
+  color: #FFFFFF;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--speed-mid), transform var(--speed-mid);
+}
+
+.level-intro.visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.level-intro-title {
+  font-family: "Poppins", "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 1.06rem;
+}
+
+.level-intro-text {
+  margin-top: 2px;
+  font-size: 0.94rem;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+  padding: var(--space-3);
+  background: rgba(0, 51, 102, 0.82);
+  backdrop-filter: blur(2px);
+  color: #FFFFFF;
+}
+
+.overlay.visible {
+  display: flex;
+}
+
+.overlay h2 {
+  color: var(--jerry-yellow);
+  font-size: clamp(1.65rem, 3.1vw, 2.35rem);
+}
+
+.overlay p {
+  max-width: 680px;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.overlay.level-complete.visible {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 201, 7, 0.28), transparent 30%),
+    radial-gradient(circle at 82% 28%, rgba(119, 168, 187, 0.24), transparent 32%),
+    rgba(0, 51, 102, 0.8);
+  animation: level-complete-glow 900ms ease-out;
+}
+
+.overlay.victory {
+  background:
+    radial-gradient(circle at 50% 10%, rgba(255, 201, 7, 0.52), rgba(255, 201, 7, 0.1) 48%, rgba(0, 51, 102, 0.82) 80%),
+    linear-gradient(180deg, rgba(0, 51, 102, 0.7), rgba(0, 51, 102, 0.9));
+  animation: victory-backdrop-pulse 3.2s ease-in-out infinite;
+}
+
+.overlay.victory h2 {
+  text-shadow: 0 0 14px rgba(255, 201, 7, 0.72);
+}
+
+.overlay.victory .button-primary,
+.overlay.victory .primary-button {
+  background: var(--yellow-soft-bg);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.overlay.game-summary #gameOverTitle {
+  color: #FFD35A;
+}
+
+.message-strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 11px 14px;
+  background: linear-gradient(0deg, rgba(0, 51, 102, 0.92), rgba(0, 51, 102, 0.75));
+  color: #FFFFFF;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.control-hint {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  padding-left: 2px;
+}
+
+/* =========================================================
+   7) Mobile Controls
+   ========================================================= */
+.touch-controls {
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-1);
+}
+
+.touch-button {
+  min-height: 64px;
+  border: 1px solid rgba(0, 51, 102, 0.22);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--dark-blue);
+  font-family: "Inter", "Segoe UI", sans-serif;
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  transition: transform var(--speed-fast), background-color var(--speed-fast), color var(--speed-fast);
+}
+
+.touch-button:active {
+  transform: scale(0.98);
+  background: var(--jerry-yellow);
+  color: var(--dark-blue);
+}
+
+/* =========================================================
+   8) Utility Classes and Motion
+   ========================================================= */
+.danger {
+  color: var(--error-red);
+  font-weight: 800;
+  text-decoration: underline 2px rgba(199, 100, 100, 0.42);
+}
+
+.value-pop {
+  animation: value-pop 280ms ease-out;
+}
+
+@keyframes value-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes route-node-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 6px rgba(255, 201, 7, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 201, 7, 0.16);
+  }
+}
+
+@keyframes route-unlock-pop {
+  0% {
+    transform: translateX(-50%) scale(0.76);
+  }
+  70% {
+    transform: translateX(-50%) scale(1.12);
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes level-complete-glow {
+  0% {
+    filter: saturate(0.9) brightness(0.96);
+  }
+  50% {
+    filter: saturate(1.1) brightness(1.03);
+  }
+  100% {
+    filter: saturate(1) brightness(1);
+  }
+}
+
+@keyframes victory-backdrop-pulse {
+  0%,
+  100% {
+    filter: saturate(1);
+  }
+  50% {
+    filter: saturate(1.09);
+  }
+}
+
+/* =========================================================
+   9) Responsive Rules
+   ========================================================= */
+@media (max-width: 1060px) {
+  .top-hud {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .hud-location-block {
+    text-align: left;
+  }
+
+  .hud-resources-block {
+    justify-items: start;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: grid;
+  }
+}
+
+@media (max-width: 900px) {
+  .page-shell {
+    width: min(100% - 1rem, 980px);
+    margin-top: var(--space-2);
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-2);
+  }
+
+  .top-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .button,
+  .primary-button,
+  .secondary-button {
+    width: 100%;
+  }
+
+  .route-stop {
+    min-width: 142px;
+    flex-basis: 142px;
+  }
+}
+
+@media (hover: none), (pointer: coarse), (max-width: 860px) {
+  body {
+    padding-bottom: calc(108px + env(safe-area-inset-bottom));
+  }
+
+  .touch-controls {
+    display: grid;
+    position: fixed;
+    left: var(--space-2);
+    right: var(--space-2);
+    bottom: calc(var(--space-2) + env(safe-area-inset-bottom));
+    z-index: 60;
+    background: rgba(255, 247, 225, 0.92);
+    border: 1px solid rgba(0, 51, 102, 0.18);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-hud);
+    padding: var(--space-1);
+  }
+
+  .control-hint {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .brand-block h1 {
+    font-size: 1.66rem;
+  }
+
+  .subtitle {
+    font-size: 0.94rem;
+  }
+
+  .campaign-status,
+  .campaign-next,
+  .campaign-goal,
+  .hud-meta,
+  .overlay p {
+    font-size: 0.92rem;
+  }
+
+  .resource-chip {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .touch-button {
+    min-height: 70px;
+    font-size: 1.08rem;
+  }
+}
+
+/* Respect system accessibility settings for reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
