@@ -1,0 +1,272 @@
+/* ═══════════════════════════════════════════════════════════════
+   charity: water Dash — Stylesheet
+
+   Brand palette
+     Yellow   #FFC907
+     Blue     #009FE3
+     Dark     #1A1A1A
+     White    #FFFFFF
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Reset ───────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+  background: #0d1b2a;
+  overflow: hidden;
+  width: 100vw;
+  height: 100dvh;
+}
+
+/* ── Canvas ──────────────────────────────────────────────────── */
+#gameCanvas {
+  display: block;
+  width: 100vw;
+  height: 100dvh;
+}
+
+/* ── Utility ─────────────────────────────────────────────────── */
+.hidden { display: none !important; }
+
+/* ── Overlays (Start / Game-Over) ────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(13, 27, 42, 0.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 200;
+}
+
+.panel {
+  text-align: center;
+  color: #fff;
+  max-width: 420px;
+  width: 90vw;
+  padding: 2.5rem 2rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 20px;
+}
+
+/* ── Bobbing water-drop icon ─────────────────────────────────── */
+.drop-icon {
+  font-size: 3.4rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+  animation: bob 2s ease-in-out infinite;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0);     }
+  50%       { transform: translateY(-10px); }
+}
+
+/* ── Headings ────────────────────────────────────────────────── */
+h1 {
+  font-size: clamp(1.6rem, 5vw, 2.3rem);
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.8rem;
+}
+
+h1 em {
+  font-style: normal;
+  font-weight: 800;
+  color: #FFC907;
+  font-size: 1.35em;
+  display: block;
+}
+
+h2 {
+  font-size: clamp(1.3rem, 4vw, 1.9rem);
+  font-weight: 300;
+  color: #FFC907;
+  margin-bottom: 1.4rem;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.7;
+  font-size: 0.95rem;
+  margin-bottom: 1.8rem;
+}
+
+/* ── CTA button ──────────────────────────────────────────────── */
+.cta-btn {
+  display: inline-block;
+  background: #FFC907;
+  color: #1A1A1A;
+  border: none;
+  padding: 0.85rem 2.6rem;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  margin-bottom: 1.2rem;
+}
+
+.cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(255, 201, 7, 0.38);
+}
+
+.cta-btn:active { transform: translateY(0); }
+
+/* ── Keyboard controls list ──────────────────────────────────── */
+.controls-hint {
+  list-style: none;
+  color: rgba(255, 255, 255, 0.38);
+  font-size: 0.8rem;
+  line-height: 2.2;
+}
+
+kbd {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.75rem;
+  font-family: inherit;
+}
+
+/* ── HUD ─────────────────────────────────────────────────────── */
+#hud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0.8rem 1.3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.hud-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.hud-right { text-align: right; }
+
+.hud-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.50);
+}
+
+#distanceVal,
+#scoreVal {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+}
+
+.hud-centre {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ── Milestone flash message ─────────────────────────────────── */
+.milestone-msg {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #FFC907;
+  text-shadow: 0 0 18px rgba(255, 201, 7, 0.65);
+  opacity: 0;
+  transition: opacity 0.3s;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.milestone-msg.show { opacity: 1; }
+
+/* ── Drop / location badge (bottom-left) ─────────────────────── */
+#dropBadge {
+  position: fixed;
+  bottom: 1.2rem;
+  left: 1.2rem;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  z-index: 100;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.location-chip {
+  background: #009FE3;
+  padding: 0.15rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* ── Game-over stats grid ────────────────────────────────────── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin: 0 0 1.2rem;
+}
+
+.stat-box {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.stat-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.stat-val {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.stat-val.gold { color: #FFC907; }
+
+.impact-quote {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-style: italic;
+  line-height: 1.5;
+  margin-bottom: 1.4rem;
+}

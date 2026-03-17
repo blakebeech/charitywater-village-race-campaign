@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>charity: water Dash</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- All gameplay is rendered on this canvas -->
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- ══════════════════════════════════════════════════════════
+       START SCREEN
+       ══════════════════════════════════════════════════════════ -->
+  <div id="startScreen" class="overlay">
+    <div class="panel">
+      <div class="drop-icon">💧</div>
+      <h1>charity: water<br /><em>Dash</em></h1>
+      <p class="subtitle">
+        Run across sub-Saharan Africa.<br />
+        Collect clean water. Bring hope to villages.
+      </p>
+      <button id="startBtn" class="cta-btn">Start Running</button>
+      <ul class="controls-hint">
+        <li><kbd>←</kbd> <kbd>→</kbd> &nbsp;or&nbsp; <kbd>A</kbd> <kbd>D</kbd> — Change lane</li>
+        <li><kbd>↑</kbd> &nbsp;or&nbsp; <kbd>Space</kbd> — Jump</li>
+        <li>Swipe left / right / up on mobile</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       HUD (shown while playing)
+       ══════════════════════════════════════════════════════════ -->
+  <div id="hud" class="hidden">
+    <!-- Top-left: distance -->
+    <div class="hud-stat">
+      <span class="hud-label">Distance</span>
+      <span id="distanceVal">0 m</span>
+    </div>
+
+    <!-- Top-centre: milestone flash message -->
+    <div class="hud-centre">
+      <span id="milestoneMsg" class="milestone-msg"></span>
+    </div>
+
+    <!-- Top-right: score -->
+    <div class="hud-stat hud-right">
+      <span class="hud-label">Score</span>
+      <span id="scoreVal">0</span>
+    </div>
+  </div>
+
+  <!-- Bottom-left badge: water drops + current country -->
+  <div id="dropBadge" class="hidden">
+    💧 <span id="dropVal">0</span>
+    <span id="locationVal" class="location-chip">Ethiopia</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       GAME-OVER SCREEN
+       ══════════════════════════════════════════════════════════ -->
+  <div id="gameOverScreen" class="overlay hidden">
+    <div class="panel">
+      <div class="drop-icon">💧</div>
+      <h2>Journey Complete</h2>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <span class="stat-label">Distance</span>
+          <span id="go-distance" class="stat-val">0 m</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Score</span>
+          <span id="go-score" class="stat-val gold">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Water Drops</span>
+          <span id="go-drops" class="stat-val">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Villages</span>
+          <span id="go-villages" class="stat-val">0</span>
+        </div>
+      </div>
+
+      <p id="go-message" class="impact-quote">Every drop of water changes a life.</p>
+      <button id="restartBtn" class="cta-btn">Run Again</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
